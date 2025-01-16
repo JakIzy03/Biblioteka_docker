@@ -11,6 +11,8 @@ services:
       - "5000:1433"  # Mapowanie portów (5000 na hoście => 1433 wewnątrz kontenera)
     volumes:
       - sql_data:/var/opt/mssql  # Trwałość danych bazy danych
+      - ./backup:/backup        # Katalog z plikiem backupu
+    command: /bin/bash -c "/backup/restore_volume.sh && /opt/mssql/bin/sqlservr" # Odtworzenie danych przed uruchomieniem SQL Servera
 
   # Usługa backendu (Node.js)
   backend:
